@@ -1,0 +1,34 @@
+{
+	"folders": [
+		{
+			"path": "../../../Users/tayef/myapp/app"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/bootstrap"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/config"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/database"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/public"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/resources"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/routes"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/storage"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/tests"
+		},
+		{
+			"path": "../../../Users/tayef/myapp/vendor"
+		}
+	]
+}
