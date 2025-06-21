@@ -3,22 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Assigned Inquiries</title>
-    @vite(['resources/css/style.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     <style>
-        table.report-table {
+        /* Make the first row (table header) green */
+        table thead tr {
+            background-color: #0e630e;
+            color: white;
+        }
+        
+        /* Center the search bar */
+        .module3-search-section {
+            background-color: #e0e0e0;
+            height: auto;
+            padding: 20px 0;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            text-align: center;
         }
-
-        table.report-table th, table.report-table td {
-            border: 1px solid #999;
-            padding: 10px;
-            text-align: left;
+        
+        .search-bar {
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 30px;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            width: 500px;
+            margin: 0 auto;
         }
-
-        table.report-table thead tr {
-            background-color: #f2f2f2; /* Light grey header */
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding-right: 5px;
         }
 
         .btn-view {
@@ -54,17 +80,17 @@
     </nav>
 
     <!-- Search bar -->
-    <div class="search-section">
+    <div class="module3-search-section">
         <div class="search-bar">
-            <input type="text" placeholder="Search News">
+            <input type="text" placeholder="Search Inquiry">
             <button><span>&#128269;</span></button>
         </div>
     </div>
 
-    <!-- Assigned Inquiries Content -->
-    <div class="profile-container">
-        <div class="profile-card" style="width: 95%;">
-            <h2 style="color: black; text-align: center;">Assigned Inquiries</h2>
+    <!-- Main Content -->
+    <div class="profile-container" style="margin-top: 0px; padding-top: 0;">
+        <div class="profile-card" style="width: 90%; overflow-x: auto;">
+            <h2 style="color: black;">Assigned Inquiries</h2>
 
             @if (session('success'))
                 <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
@@ -75,9 +101,9 @@
             @if ($assignments->isEmpty())
                 <p>No inquiries assigned.</p>
             @else
-                <table class="report-table">
-                    <thead class="table-header-agency"> 
-                        <tr>
+                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr class="table-header-agency">
                             <th>Assignment ID</th>
                             <th>Inquiry ID</th>
                             <th>Inquiry Title</th>

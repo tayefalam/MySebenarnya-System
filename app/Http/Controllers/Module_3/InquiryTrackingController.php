@@ -21,7 +21,7 @@ class InquiryTrackingController extends Controller
         $user_id = Auth::user()->User_ID;
 
         $inquiries = Inquiry::where('User_ID', $user_id)->get();
-        return view('publicuser.inquiry-list', compact('inquiries'));
+        return view('Module_3.publicuser.inquiry-list', compact('inquiries'));
     }
 
 
@@ -33,6 +33,6 @@ class InquiryTrackingController extends Controller
             ->latest('Assigned_Date')
             ->first();
 
-        return view('publicuser.assigned-agency', compact('assignment'));
+        return view('Module_3.publicuser.assigned-agency', compact('assignment'));
     }
 }
