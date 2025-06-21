@@ -145,6 +145,16 @@
     padding-top: 20px;
 }
 
+/* Module 3 specific search section */
+.module3-search-section {
+    background-color: #e0e0e0;
+    height: auto;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+}
+
+
 .search-bar {
     background-color: white;
     border: 2px solid #ccc;
@@ -153,6 +163,7 @@
     display: flex;
     align-items: center;
     width: 500px;
+    margin: 0 auto;
 }
 
 .search-bar input {

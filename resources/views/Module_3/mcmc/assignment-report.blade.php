@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Assignment Report</title>
-    @vite(['resources/css/style.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
+    <style>
+        /* Center the search bar */
+        .search-section {
+            background-color: #e0e0e0;
+            height: auto;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .search-bar {
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 30px;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding-right: 5px;
+        }
+    </style>
 </head>
 <body class="login-body">
 
@@ -30,11 +67,11 @@
     </div>
 
     <!-- Main Report Section -->
-    <div class="profile-container">
-        <div class="profile-card" style="width: 90%; overflow-x: auto;">
-            <h2 style="color: black;">Inquiry Assignment Report</h2>
+    <div class="profile-container" style="margin: 0px; padding: 0px;">
+        <div class="profile-card" style="width: 98%; overflow-x: auto; margin: 0px; padding: 20px; max-width: none;">
+            <h2 style="color: black; margin-top: 0px;">Inquiry Assignment Report</h2>
 
-            <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px; min-width: 800px; font-size: 14px;">
                 <thead class="table-header-mcmc"> 
                     <tr> 
                         <th>Assignment ID</th>
