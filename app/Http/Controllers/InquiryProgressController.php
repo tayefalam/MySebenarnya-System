@@ -41,7 +41,7 @@ class InquiryProgressController extends Controller
             'mcmc_id' => $request->mcmc_id,
             'status' => $request->status,
             'remarks' => $request->remarks,
-            'update_timestamp' => now(), // Ensure timestamp is recorded
+            'update_timestamp' => now(),
         ]);
 
         return redirect('/progress')->with('success', 'Inquiry progress added successfully.');
@@ -86,16 +86,5 @@ class InquiryProgressController extends Controller
         ]);
 
         return redirect('/progress')->with('success', 'Progress updated successfully!');
-    }
-
-    /**
-     * Delete the specified inquiry progress entry.
-     */
-    public function destroy($id)
-    {
-        $progress = InquiryProgress::findOrFail($id);
-        $progress->delete();
-
-        return redirect('/progress')->with('success', 'Progress entry deleted successfully!');
     }
 }

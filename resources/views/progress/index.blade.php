@@ -6,6 +6,31 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<!-- ✅ NAVIGATION BAR -->
+<nav class="navbar navbar-expand-lg" style="background-color: #1769aa;">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white fw-bold" href="#">MYSEBENARNYA</a>
+        <span class="navbar-text text-white">Module 4 - Admin</span>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/progress">View Progress</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/report">Report Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container mt-5">
     <h2 class="mb-4 text-center">📌 Inquiry Progress Tracking</h2>
 
@@ -111,13 +136,7 @@
                     <a href="{{ url('/progress/' . $item->id . '/edit') }}" class="btn btn-sm btn-outline-warning">
                         Edit
                     </a>
-                    <form action="{{ url('/progress/' . $item->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this entry?')">
-                            Delete
-                        </button>
-                    </form>
+                    <!-- ❌ Delete function removed as per SDD -->
                 </td>
             </tr>
         @endforeach
