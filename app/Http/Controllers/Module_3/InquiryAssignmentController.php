@@ -18,7 +18,7 @@ class InquiryAssignmentController extends Controller
     {
         $agencies = Agency::all();
         $inquiry = Inquiry::findOrFail($inquiry_id); // 🔧 Add this line to get the full inquiry
-        return view('mcmc.assign', compact('inquiry', 'agencies')); // ✅ Pass $inquiry
+        return view('Module_3.mcmc.assign', compact('inquiry', 'agencies')); // ✅ Pass $inquiry
     }
 
 
@@ -48,14 +48,14 @@ class InquiryAssignmentController extends Controller
             ->where('Agency_ID', $agencyId)
             ->get();
 
-        return view('agency.assigned-inquiries', compact('assignments'));
+        return view('Module_3.agency.assigned-inquiries', compact('assignments'));
     }
 
     // ✅ Show jurisdiction review form to agency
     public function showJurisdictionForm($assignment_id)
     {
         $assignment = Assignment::with('inquiry')->findOrFail($assignment_id);
-        return view('agency.review-jurisdiction', compact('assignment'));
+        return view('Module_3.agency.review-jurisdiction', compact('assignment'));
     }
 
     // ✅ Handle jurisdiction review submission
@@ -100,10 +100,10 @@ class InquiryAssignmentController extends Controller
             ->first();
 
         if (!$inquiry) {
-            return view('mcmc.review-inquiry')->with('error', 'Inquiry not found.');
+            return view('Module_3.mcmc.review-inquiry')->with('error', 'Inquiry not found.');
         }
 
-        return view('mcmc.review-inquiry', ['inquiry' => $inquiry]);
+        return view('Module_3.mcmc.review-inquiry', ['inquiry' => $inquiry]);
     }
 
 
@@ -115,17 +115,17 @@ class InquiryAssignmentController extends Controller
             ->first();
 
         if (!$assignment) {
-            return view('publicuser.assigned-agency')->with('error', 'No assignment found for this inquiry.');
+            return view('Module_3.publicuser.assigned-agency')->with('error', 'No assignment found for this inquiry.');
         }
 
-        return view('publicuser.assigned-agency', compact('assignment'));
+        return view('Module_3.publicuser.assigned-agency', compact('assignment'));
     }
     
     // ✅ Display all inquiries for MCMC
     public function listAllInquiries()
     {
         $inquiries = Inquiry::all(); // You can use ->paginate(10) if needed
-        return view('mcmc.review-inquiry', compact('inquiries')); // ← Use the correct Blade name
+        return view('Module_3.mcmc.review-inquiry', compact('inquiries')); // ← Use the correct Blade name
     }
     
 }

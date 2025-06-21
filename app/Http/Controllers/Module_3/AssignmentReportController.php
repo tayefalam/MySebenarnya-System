@@ -17,7 +17,7 @@ class AssignmentReportController extends Controller
         $assignments = Assignment::with(['inquiry', 'agency', 'mcmc'])->get();
 
         // Pass to view
-        return view('mcmc.assignment-report', compact('assignments'));
+        return view('Module_3.mcmc.assignment-report', compact('assignments'));
     }
     // AssignmentReportController.php
     public function viewAnalytics()
@@ -36,7 +36,7 @@ class AssignmentReportController extends Controller
             ->orderBy('month')
             ->pluck('count', 'month');
 
-        return view('mcmc.dashboard-analytics', compact('totalAssignments', 'assignmentsPerAgency', 'assignmentsPerMonth'));
+        return view('Module_3.mcmc.dashboard-analytics', compact('totalAssignments', 'assignmentsPerAgency', 'assignmentsPerMonth'));
     }
 
     public function reviewInquiry($inquiry_id)
@@ -49,11 +49,11 @@ class AssignmentReportController extends Controller
 
     // Check if the inquiry exists
     if (!$inquiry) {
-        return view('mcmc.review-inquiry')->with('error', 'Inquiry not found.');
+        return view('Module_3.mcmc.review-inquiry')->with('error', 'Inquiry not found.');
     }
 
     // Pass the inquiry data to the view
-    return view('mcmc.review-inquiry', ['inquiry' => $inquiry]);
+    return view('Module_3.mcmc.review-inquiry', ['inquiry' => $inquiry]);
 }
 
 }

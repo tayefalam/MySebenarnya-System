@@ -1173,4 +1173,128 @@
         margin: 10px;
         padding: 12px 15px;
     }
+
+    /* ===== MODULE 3 ADDITIONAL ===== */
+
+   .MCMClogin-header {
+    background-color: #0e630e;
+    padding: 10px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    }
+
+    .Agencylogin-header {
+        background-color: #921b35;
+        padding: 10px 20px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .profile-container {
+    background-color: #e0e0e0;
+    height: auto;
+    padding: 40px 0;
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    }
+
+    .profile-card {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 400px;
+    }
+
+    .profile-card h2 {
+    margin-top: 10px;
+    color: #0b6094;
+    }
+
+    .profile-card p {
+    font-size: 16px;
+    margin: 10px 0;
+    }
+
+    .table-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    margin-top: 20px;
+    overflow-x: auto;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 16px;
+    }
+
+    table th, table td {
+        border: 1px solid #ccc;
+        padding: 12px 15px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #0b6094;
+        color: white;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+        background-color: #eef6fc;
+    }
+
+    table button {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    table button:hover {
+        background-color: #0056b3;
+    }
+    .table-header-public th {
+    background-color: #0b6094;
+    color: white;
+    }
+
+    .table-header-agency th {
+        background-color: #921b35;
+        color: white;
+    }
+
+    .table-header-mcmc th {
+        background-color: #0e630e;
+        color: white;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
