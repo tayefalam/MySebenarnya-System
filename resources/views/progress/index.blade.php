@@ -133,10 +133,10 @@
                     <a href="{{ url('/progress/history/' . $item->inquiry_id) }}" class="btn btn-sm btn-outline-info">
                         View History
                     </a>
-                    <a href="{{ url('/progress/' . $item->id . '/edit') }}" class="btn btn-sm btn-outline-warning">
+                    <a href="{{ url('/progress/' . $item->progress_id . '/edit') }}" class="btn btn-sm btn-outline-warning">
                         Edit
                     </a>
-                    <!-- ❌ Delete function removed as per SDD -->
+                    <!-- ❌ Delete function removed -->
                 </td>
             </tr>
         @endforeach

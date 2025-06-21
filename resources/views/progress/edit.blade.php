@@ -35,7 +35,8 @@
 <div class="container mt-5">
     <h2 class="mb-4 text-center">✏️ Edit Progress Entry</h2>
 
-    <form method="POST" action="{{ url('/progress/' . $progress->id) }}">
+    <!-- ✅ Make sure you use progress_id here -->
+    <form method="POST" action="{{ url('/progress/' . $progress->progress_id) }}">
         @csrf
         @method('PUT')
 

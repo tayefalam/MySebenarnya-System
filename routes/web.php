@@ -8,9 +8,8 @@ use App\Http\Controllers\ProgressReportController;
 Route::get('/progress', [InquiryProgressController::class, 'index']);
 Route::post('/progress', [InquiryProgressController::class, 'store']);
 Route::get('/progress/history/{inquiry_id}', [InquiryProgressController::class, 'history']);
-Route::get('/progress/{id}/edit', [InquiryProgressController::class, 'edit']);
-Route::put('/progress/{id}', [InquiryProgressController::class, 'update']);
-
+Route::get('/progress/{progress_id}/edit', [InquiryProgressController::class, 'edit']);
+Route::put('/progress/{progress_id}', [InquiryProgressController::class, 'update']); // ✅ this must match the form action
 
 // ✅ Report route for MCMC summary view
 Route::get('/report', [ProgressReportController::class, 'index']);
