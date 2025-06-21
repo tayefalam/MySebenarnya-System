@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register custom middleware aliases
+        $middleware->alias([
+            'check.user.type' => \App\Http\Middleware\CheckUserType::class,
+            'check.temp.password' => \App\Http\Middleware\CheckTempPassword::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
