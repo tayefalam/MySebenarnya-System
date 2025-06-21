@@ -180,19 +180,45 @@ class ProfileController extends Controller
             }
             // Handle profile image upload - store filename in PublicUser table
             elseif ($request->hasFile('profile_image')) {
+                Log::info('Profile image upload started', [
+                    'user_id' => $user->User_ID,
+                    'has_public_user' => $publicUser ? true : false
+                ]);
+                
                 // Validate file
                 $file = $request->file('profile_image');
                 
                 if ($file->isValid()) {
+                    Log::info('File validation passed', [
+                        'user_id' => $user->User_ID,
+                        'original_name' => $file->getClientOriginalName(),
+                        'size' => $file->getSize(),
+                        'mime_type' => $file->getMimeType()
+                    ]);
+                    
                     // Delete old profile image if exists
                     if ($publicUser && $publicUser->profile_image_filename) {
-                        Storage::disk('public')->delete('profile_images/' . $publicUser->profile_image_filename);
+                        $oldImagePath = 'profile_images/' . $publicUser->profile_image_filename;
+                        if (Storage::disk('public')->exists($oldImagePath)) {
+                            Storage::disk('public')->delete($oldImagePath);
+                            Log::info('Old profile image deleted', [
+                                'user_id' => $user->User_ID,
+                                'old_filename' => $publicUser->profile_image_filename
+                            ]);
+                        }
                     }
 
                     $filename = uniqid() . '.' . $file->getClientOriginalExtension();
                     
                     // Store the file using the public disk
                     $storedPath = $file->storeAs('profile_images', $filename, 'public');
+                    
+                    Log::info('File storage attempt', [
+                        'user_id' => $user->User_ID,
+                        'filename' => $filename,
+                        'stored_path' => $storedPath,
+                        'file_exists' => Storage::disk('public')->exists($storedPath)
+                    ]);
                     
                     // Verify file was stored
                     if ($storedPath && Storage::disk('public')->exists($storedPath)) {
@@ -201,11 +227,12 @@ class ProfileController extends Controller
                             $publicUser->setProfileImageFilename($filename);
                             
                             // Debug: Log what was saved
-                            Log::info('Profile image updated for user', [
+                            Log::info('Profile image updated for existing user', [
                                 'user_id' => $user->User_ID,
                                 'public_user_id' => $publicUser->PublicUser_ID,
                                 'filename' => $filename,
-                                'stored_path' => $storedPath
+                                'stored_path' => $storedPath,
+                                'full_path' => storage_path('app/public/' . $storedPath)
                             ]);
                         } else {
                             // Create PublicUser record first if it doesn't exist
@@ -220,16 +247,29 @@ class ProfileController extends Controller
                             Log::info('New PublicUser created with profile image', [
                                 'user_id' => $user->User_ID,
                                 'public_user_id' => $newPublicUser->PublicUser_ID,
-                                'filename' => $filename
+                                'filename' => $filename,
+                                'stored_path' => $storedPath
                             ]);
                         }
                     } else {
                         Log::error('Failed to store profile image', [
                             'user_id' => $user->User_ID,
                             'filename' => $filename,
-                            'stored_path' => $storedPath
+                            'stored_path' => $storedPath,
+                            'storage_path' => storage_path('app/public/profile_images/'),
+                            'public_path' => public_path('storage/profile_images/')
                         ]);
+                        
+                        return redirect()->back()->withErrors('Failed to save profile image. Please try again.')->withInput();
                     }
+                } else {
+                    Log::error('Invalid file upload', [
+                        'user_id' => $user->User_ID,
+                        'file_error' => $file->getError(),
+                        'file_name' => $file->getClientOriginalName()
+                    ]);
+                    
+                    return redirect()->back()->withErrors('Invalid file. Please select a valid image file.')->withInput();
                 }
             }
 
@@ -255,6 +295,9 @@ class ProfileController extends Controller
             // Clear any cached model data to ensure fresh data on next load
             // Refresh the user instance in the session
             $user->refresh();
+            
+            // Force reload the relationship to ensure fresh data
+            $user->load('publicProfile');
             
             return redirect()->route('user.profile.view')->with('success', 'Profile updated successfully!');
 
