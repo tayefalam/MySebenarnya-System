@@ -11,5 +11,10 @@ Route::get('/progress/{id}/edit', [InquiryProgressController::class, 'edit']);
 Route::put('/progress/{id}', [InquiryProgressController::class, 'update']);
 Route::delete('/progress/{id}', [InquiryProgressController::class, 'destroy']);
 
-// ✅ New: Report route for MCMC summary view
+// ✅ Report route for MCMC summary view
 Route::get('/report', [ProgressReportController::class, 'index']);
+
+// ✅ Temporary: Make Module 4 default view
+Route::get('/', function () {
+    return redirect('/progress');
+});
