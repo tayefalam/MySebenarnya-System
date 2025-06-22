@@ -11,19 +11,19 @@ use App\Models\Assignment;
 class InquiryTrackingController extends Controller
 {
     // ✅ View all inquiries submitted by the public user
+
     public function listInquiries()
     {
-        //if (!Auth::check()) {
-            //return redirect('/login')->with('error', 'You must log in first.');
-        //}
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login first.');
+        }
 
-        //$user_id = Auth::user()->User_ID;
-        $user_id = 'U001';
+        $user_id = Auth::user()->User_ID;
 
         $inquiries = Inquiry::where('User_ID', $user_id)->get();
-
-        return view('publicuser.inquiry-list', compact('inquiries'));
+        return view('Module_3.publicuser.inquiry-list', compact('inquiries'));
     }
+
 
     public function viewAssignment($inquiry_id)
     {
@@ -33,6 +33,6 @@ class InquiryTrackingController extends Controller
             ->latest('Assigned_Date')
             ->first();
 
-        return view('publicuser.assigned-agency', compact('assignment'));
+        return view('Module_3.publicuser.assigned-agency', compact('assignment'));
     }
 }

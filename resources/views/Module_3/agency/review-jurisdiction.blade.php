@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Jurisdiction</title>
-    @vite(['resources/css/style.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
 
     <script>
         function toggleRejectionField() {

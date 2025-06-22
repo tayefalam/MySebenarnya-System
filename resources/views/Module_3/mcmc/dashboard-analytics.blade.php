@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Analytics</title>
-    @vite(['resources/css/style.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .chart-section {
@@ -11,7 +11,7 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 30px;
-            margin: 40px auto;
+            margin: 0px auto;
             max-width: 1200px;
         }
 
@@ -30,6 +30,42 @@
 
         canvas {
             margin-top: 20px;
+        }
+        
+        /* Center the search bar */
+        .search-section {
+            background-color: #e0e0e0;
+            height: auto;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .search-bar {
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 30px;
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding-right: 5px;
         }
     </style>
 </head>
@@ -58,17 +94,17 @@
 </div>
 
 <!-- Dashboard Analytics -->
-<div class="profile-container">
-    <div class="profile-card" style="width: 95%;">
+<div class="profile-container" style="margin-top: 0px; padding-top: 0; margin-bottom: 0px; padding-bottom: 0px;">
+    <div class="profile-card" style="width: 95%; margin-bottom: 0px; padding-bottom: 10px;">
         <h2 style="color: black;">Dashboard Analytics</h2>
-        <p style="font-size: 18px; margin-top: 10px;">
+        <p style="font-size: 18px; margin-top: 10px; margin-bottom: 0px;">
             <strong>Total Assignments:</strong> {{ $totalAssignments }}
         </p>
     </div>
 </div>
 
 <!-- Graphs Section Side by Side -->
-<div class="chart-section">
+<div class="chart-section" style="margin-top: 0px;">
     <div class="chart-box">
         <h3>Assignments Per Agency</h3>
         <canvas id="agencyChart"></canvas>
