@@ -23,4 +23,16 @@ class InquiryProgress extends Model
     ];
 
     public $timestamps = true;
+
+    // ✅ Relationships
+
+    public function inquiry()
+    {
+        return $this->belongsTo(Inquiry::class, 'inquiry_id');
+    }
+
+    public function agency()
+    {
+        return $this->belongsTo(User::class, 'agency_id');
+    }
 }
