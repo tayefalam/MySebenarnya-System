@@ -67,7 +67,7 @@ class ReviewReportController extends Controller
       
     'status' => $statusMap[$request->status],
     'inquiries_id' => $inquiry->id,
-    'user_id' => Auth::id(), // ✅ Add this line
+    'user_id' => Auth::id(),
 ]);
 
 
