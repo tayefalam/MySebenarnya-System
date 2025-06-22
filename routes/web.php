@@ -157,7 +157,7 @@ Route::middleware(['web'])->group(function () {
         Route::middleware(['check.user.type:MCMC'])->group(function () {
         Route::get('/review-inquiries', [ReviewReportController::class, 'index'])->name('inquiries.review');// View and review submitted inquiries
         Route::post('/inquiries/{id}/status', [ReviewReportController::class, 'updateStatus'])->name('inquiries.updateStatus');// Update inquiry status (accepted / Rejected)
-        Route::get('/report', [ReviewReportController::class, 'report'])->name('inquiries.report');// Generate report based on inquiries
+        Route::get('/reports', [ReviewReportController::class, 'report'])->name('inquiries.report');// Generate report based on inquiries
         Route::get('/report/download', [ReviewReportController::class, 'downloadPDF'])->name('inquiries.report.download');//Download report as PDF
         });
 
@@ -198,7 +198,5 @@ Route::put('/progress/{progress_id}', [InquiryProgressController::class, 'update
 Route::get('/report', [ProgressReportController::class, 'index']);
 
 // ✅ Make /progress the homepage
-Route::get('/', function () {
-    return redirect('/progress');
-});
+
 
