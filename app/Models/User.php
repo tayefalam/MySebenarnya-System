@@ -10,10 +10,11 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $table = 'user';
+    
     protected $primaryKey = 'User_ID';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = true;
+
 
     protected $fillable = [
         'User_ID', 

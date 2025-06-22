@@ -18,6 +18,7 @@
         }, 4000);
     </script>
 @endif
+<div class="table-responsive">
 <div class="container mt-4 rounded shadow p-4 bg-light">
     <h1 class="mb-4">Submit New Inquiry</h1>
     <div class="p-4 border rounded-4 shadow-sm bg-white">
@@ -42,5 +43,6 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+</div>
 </div>
 @endsection

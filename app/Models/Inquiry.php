@@ -15,7 +15,7 @@ class Inquiry extends Model
         'date', 
         'status', 
         'evidence', 
-        'user_id'
+        'User_ID'
     ];
 
     protected $casts = [
@@ -25,7 +25,7 @@ class Inquiry extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'User_ID', 'User_ID');
     }
 
     public function review()

@@ -15,7 +15,7 @@
             <h2>Inquiry Report</h2>
             <a href="{{ route('inquiries.report.download') }}" class="btn btn-sm btn-outline-primary">Download PDF</a>
         </div>
-
+<div class="table-responsive">
        <div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
@@ -29,8 +29,8 @@
         <div class="col-md-4">
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Approved</h5>
-                    <p class="card-text fs-4">{{ $approved }}</p>
+                    <h5 class="card-title">Accepted</h5>
+                    <p class="card-text fs-4">{{ $accepted }}</p>
                 </div>
             </div>
         </div>
@@ -51,16 +51,16 @@
             </div>
         </div>
     </div>
-
+    </div>
     <script>
         const ctx = document.getElementById('inquiryChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Total', 'Approved', 'Rejected'],
+                labels: ['Total', 'accepted', 'Rejected'],
                 datasets: [{
                     label: 'Number of Inquiries',
-                    data: [{{ $totalInquiries }}, {{ $approved }}, {{ $rejected }}],
+                    data: [{{ $totalInquiries }}, {{ $accepted }}, {{ $rejected }}],
                     backgroundColor: [
                         'rgba(0, 123, 255, 0.7)',
                         'rgba(40, 167, 69, 0.7)',
