@@ -10,7 +10,6 @@ class Inquiry extends Model
     use HasFactory;
 
     protected $fillable = [
-<<<<<<< HEAD
         'title', 
         'description', 
         'date', 
@@ -33,13 +32,6 @@ class Inquiry extends Model
     {
         return $this->hasOne(Review::class, 'inquiries_id');
     }
-=======
-        'title',
-        'description',
-        'date',
-        'status',
-        'evidence',
-        'user_id',
-    ];
->>>>>>> a475ae09d5e7d0662df260e489df6e852d566804
+        
+    
 }

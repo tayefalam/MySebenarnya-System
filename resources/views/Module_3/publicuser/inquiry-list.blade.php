@@ -13,12 +13,17 @@
         </div>
         <ul class="navbar-menu">
             <li><a href="/user-dashboard">Dashboard</a></li>
-            <li><a href="#">Info</a></li>
-            <li><a href="#">Report</a></li>
-            <li><a href="#">News Updates</a></li>
-            <li><a href="#">View Inquiry</a></li>
-            <li><a href="/view-user-profile">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#">Add Inquiry</a></li>
+            <li><a href="#">View Public Inquiries</a></li>
+            <li><a href="#">Status of Submitted Inquiries</a></li>
+            <li><a href="#">View Assigned Agency</a></li>
+            <li><a href="#">Profile</a></li>
+            <li>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
         </ul>
     </nav>
 
