@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\InquiryProgress;
+use App\Models\Inquiry;
+use App\Models\Notification; // ✅ Add this line
 
 class InquiryProgressController extends Controller
 {
@@ -14,15 +17,23 @@ class InquiryProgressController extends Controller
     {
         $query = InquiryProgress::query();
 
+        // Only show records for the logged-in agency
+        $query->where('agency_id', Auth::id());
+
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where('inquiry_id', 'like', "%$search%")
-                  ->orWhere('status', 'like', "%$search%");
+            $query->where(function ($q) use ($search) {
+                $q->where('status', 'like', "%$search%")
+                  ->orWhereHas('inquiry', function ($sub) use ($search) {
+                      $sub->where('title', 'like', "%$search%");
+                  });
+            });
         }
 
-        $progress = $query->orderBy('update_timestamp', 'desc')->get();
+        $progress = $query->with('inquiry', 'agency')->orderBy('update_timestamp', 'desc')->get();
+        $inquiries = Inquiry::all();
 
-        return view('progress.index', compact('progress'));
+        return view('progress.index', compact('progress', 'inquiries'));
     }
 
     /**
@@ -33,43 +44,54 @@ class InquiryProgressController extends Controller
         $request->validate([
             'inquiry_id' => 'required|numeric',
             'status' => 'required|string',
+            'remarks' => 'nullable|string',
         ]);
 
-        InquiryProgress::create([
+        // Save progress
+        $progress = InquiryProgress::create([
             'inquiry_id' => $request->inquiry_id,
-            'agency_id' => $request->agency_id,
-            'mcmc_id' => $request->mcmc_id,
+            'agency_id' => Auth::id(),
             'status' => $request->status,
             'remarks' => $request->remarks,
             'update_timestamp' => now(),
+        ]);
+
+        // ✅ Create notification
+        Notification::create([
+            'inquiry_id' => $progress->inquiry_id,
+            'agency_id' => $progress->agency_id,
+            'mcmc_id' => null, // Update this if you have a value for MCMC
+            'message' => 'Inquiry progress updated to: ' . $progress->status,
+            'is_read' => false,
         ]);
 
         return redirect('/progress')->with('success', 'Inquiry progress added successfully.');
     }
 
     /**
-     * Display full progress history for a specific inquiry ID.
+     * Show full history for a specific inquiry ID.
      */
     public function history($inquiry_id)
     {
         $history = InquiryProgress::where('inquiry_id', $inquiry_id)
-                    ->orderBy('update_timestamp', 'desc')
-                    ->get();
+                                  ->where('agency_id', Auth::id())
+                                  ->orderBy('update_timestamp', 'desc')
+                                  ->get();
 
         return view('progress.history', compact('history', 'inquiry_id'));
     }
 
     /**
-     * Show the form for editing a specific progress entry.
+     * Show form to edit a specific progress record.
      */
     public function edit($id)
     {
-        $progress = InquiryProgress::findOrFail($id);
+        $progress = InquiryProgress::where('agency_id', Auth::id())->findOrFail($id);
         return view('progress.edit', compact('progress'));
     }
 
     /**
-     * Update the specified inquiry progress entry.
+     * Update an existing inquiry progress record.
      */
     public function update(Request $request, $id)
     {
@@ -78,7 +100,7 @@ class InquiryProgressController extends Controller
             'remarks' => 'nullable|string',
         ]);
 
-        $progress = InquiryProgress::findOrFail($id);
+        $progress = InquiryProgress::where('agency_id', Auth::id())->findOrFail($id);
         $progress->update([
             'status' => $request->status,
             'remarks' => $request->remarks,

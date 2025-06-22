@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inquiry_progress', function (Blueprint $table) {
-            $table->id();
+            $table->id('progress_id');
+            $table->unsignedBigInteger('inquiry_id');
+            $table->unsignedBigInteger('agency_id');
+            $table->enum('status', ['Pending', 'In Progress', 'Resolved', 'Rejected']);
+            $table->enum('remarks', ['Acknowledged', 'Under Review', 'Completed'])->nullable();
+            $table->timestamp('update_timestamp')->useCurrent();
             $table->timestamps();
+
+            $table->foreign('inquiry_id')->references('id')->on('inquiries')->onDelete('cascade');
+            $table->foreign('agency_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
