@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -15,6 +16,7 @@ class User extends Authenticatable
     protected $primaryKey = 'User_ID';
     public $incrementing = false;
     protected $keyType = 'string';
+
 
 
     use HasFactory, Notifiable;
@@ -36,16 +38,19 @@ class User extends Authenticatable
         'Password', 'remember_token', 'reset_token',
     ];
 
+
     protected $casts = [
         'reset_token_expires_at' => 'datetime',
     ];
 
     public function getAuthIdentifierName()
+
+
     {
         return 'User_ID';
     }
 
- 
+
     public function getAuthPassword()
     {
         return $this->Password;
@@ -137,4 +142,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(InquiryProgress::class, 'agency_id');
     }
+
 }

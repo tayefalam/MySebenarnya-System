@@ -32,6 +32,8 @@ class Inquiry extends Model
     {
         return $this->hasOne(Review::class, 'inquiries_id');
     }
+
         
     
+
 }

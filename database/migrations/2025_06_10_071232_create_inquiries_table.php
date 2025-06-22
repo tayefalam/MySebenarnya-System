@@ -18,7 +18,8 @@ return new class extends Migration
         $table->date('date');
         $table->boolean('status')->nullable(); // false = pending
         $table->string('evidence')->nullable(); // file path
-        $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+        $table->string('User_ID', 10);
+        $table->foreign('User_ID')->references('User_ID')->on('user')->onDelete('cascade');
         $table->timestamps();
     });
 }

@@ -14,8 +14,10 @@ return new class extends Migration
     Schema::create('reviews', function (Blueprint $table) {
         $table->id();
         $table->string('status');
+        $table->string('User_ID', 10);
+        $table->foreign('User_ID')->references('User_ID')->on('user')->onDelete('cascade');
         $table->integer('total_received')->default(0);
-        $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+       
         $table->timestamps();
     });
 }
