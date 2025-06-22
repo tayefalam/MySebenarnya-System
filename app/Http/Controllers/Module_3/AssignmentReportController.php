@@ -40,20 +40,20 @@ class AssignmentReportController extends Controller
     }
 
     public function reviewInquiry($inquiry_id)
-{
-    // Fetch inquiry data from the 'inquiry' table
-    $inquiry = DB::table('inquiry')
-        ->where('Inquiry_ID', $inquiry_id)
-        ->select('Inquiry_ID', 'Inquiry_Title', 'Inquiry_Desc', 'Inquiry_SubDate')
-        ->first();
+    {
+        // Fetch inquiry data from the 'inquiry' table
+        $inquiry = DB::table('inquiry')
+            ->where('Inquiry_ID', $inquiry_id)
+            ->select('Inquiry_ID', 'Inquiry_Title', 'Inquiry_Desc', 'Inquiry_SubDate')
+            ->first();
 
-    // Check if the inquiry exists
-    if (!$inquiry) {
-        return view('Module_3.mcmc.review-inquiry')->with('error', 'Inquiry not found.');
+        // Check if the inquiry exists
+        if (!$inquiry) {
+            return view('Module_3.mcmc.review-inquiry')->with('error', 'Inquiry not found.');
+        }
+
+        // Pass the inquiry data to the view
+        return view('Module_3.mcmc.review-inquiry', ['inquiry' => $inquiry]);
     }
-
-    // Pass the inquiry data to the view
-    return view('Module_3.mcmc.review-inquiry', ['inquiry' => $inquiry]);
-}
 
 }

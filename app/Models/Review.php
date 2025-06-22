@@ -10,7 +10,7 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status', 'total_received', 'user_id', 'inquiries_id'
+        'status', 'inquiries_id', 'user_id'
     ];
 
     public function inquiry()
@@ -20,6 +20,6 @@ class Review extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'User_ID', 'User_ID');
     }
 }

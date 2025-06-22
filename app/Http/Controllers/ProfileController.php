@@ -34,6 +34,8 @@ class ProfileController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return redirect()->route('user.dashboard')->withErrors('Error loading profile: ' . $e->getMessage());
+
+            
         }
     }
 

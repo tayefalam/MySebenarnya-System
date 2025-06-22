@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
+=======
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+>>>>>>> a475ae09d5e7d0662df260e489df6e852d566804
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+<<<<<<< HEAD
     use Notifiable;
 
     protected $table = 'user';
+    
     protected $primaryKey = 'User_ID';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = true;
+
+=======
+    use HasFactory, Notifiable;
+>>>>>>> a475ae09d5e7d0662df260e489df6e852d566804
 
     protected $fillable = [
         'User_ID', 
@@ -32,15 +41,20 @@ class User extends Authenticatable
         'Password', 'remember_token', 'reset_token',
     ];
 
+<<<<<<< HEAD
     protected $casts = [
         'reset_token_expires_at' => 'datetime',
     ];
 
     public function getAuthIdentifierName()
+=======
+    protected function casts(): array
+>>>>>>> a475ae09d5e7d0662df260e489df6e852d566804
     {
         return 'User_ID';
     }
 
+<<<<<<< HEAD
     public function getAuthPassword()
     {
         return $this->Password;
@@ -126,4 +140,11 @@ class User extends Authenticatable
                now()->isBefore($this->reset_token_expires_at);
     }
 
+=======
+    // ✅ Add this method below
+    public function progressEntries()
+    {
+        return $this->hasMany(InquiryProgress::class, 'agency_id');
+    }
+>>>>>>> a475ae09d5e7d0662df260e489df6e852d566804
 }

@@ -25,7 +25,7 @@
             
             <select name="status" class="form-select">
                 <option value="">Display All</option>
-                <option value="approved" {{ request('status') == 'true' ? 'selected' : '' }}>Approved</option>
+                <option value="accepted" {{ request('status') == 'true' ? 'selected' : '' }}>Accepted</option>
                 <option value="rejected" {{ request('status') == 'false' ? 'selected' : '' }}>Rejected</option>
                 <option value="pending" {{ request('status') == 'null' ? 'selected' : '' }}>Pending</option>
             </select>
@@ -33,9 +33,12 @@
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
     </div>
+    <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
+                <th>Name</th>
+                <th>Email</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Date Time</th>
@@ -48,6 +51,8 @@
     @if($inquiries->count() > 0)
         @foreach($inquiries as $inquiry)
         <tr>
+            <td>{{ $inquiry->user->Name ?? 'N/A' }}</td>
+            <td>{{ $inquiry->user->Email ?? 'N/A' }}</td>
             <td style="max-width: 200px; white-space: normal; word-break: break-word;">
             {{ $inquiry->title }}</td>
             <td style="max-width: 250px; white-space: normal; word-break: break-word;">
@@ -64,7 +69,7 @@
                 @if (is_null($inquiry->status))
                     Pending
                 @elseif ($inquiry->status)
-                    Approved
+                    Accepted
                 @else
                     Rejected
                 @endif
@@ -73,7 +78,7 @@
                 <form action="{{ route('inquiries.updateStatus', $inquiry->id) }}" method="POST">
                     @csrf
                     <select name="status" class="form-select form-select-sm" required>
-                        <option value="approved" {{ $inquiry->status === true ? 'selected' : '' }}>Approved</option>
+                        <option value="accepted" {{ $inquiry->status === true ? 'selected' : '' }}>Accepted</option>
                         <option value="rejected" {{ $inquiry->status === false ? 'selected' : '' }}>Rejected</option>
                         <option value="pending" {{ is_null($inquiry->status) ? 'selected' : '' }}>Pending</option>
                     </select>
@@ -84,7 +89,7 @@
         @endforeach
     @else
         <tr>
-            <td colspan="6" class="text-center text-muted">No inquiries found.</td>
+            <td colspan="15" class="text-center text-muted">No inquiries found.</td>
         </tr>
     @endif
 </tbody>
@@ -93,5 +98,6 @@
     <div class="d-flex justify-content-center">
         {{ $inquiries->appends(request()->query())->links() }}
     </div>
+</div>
 </div>
 @endsection

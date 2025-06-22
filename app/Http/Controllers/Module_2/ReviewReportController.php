@@ -14,7 +14,10 @@ class ReviewReportController extends Controller
     // MCMC: View all inquiries
     public function index(Request $request)
     {
-        $query = Inquiry::query();
+        $query = Inquiry::with(['user' => function ($query) {
+        $query->select('User_ID', 'Name', 'Email');
+        }])->whereNotNull('User_ID');
+
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -24,7 +27,7 @@ class ReviewReportController extends Controller
         }
 
         if ($request->filled('status')) {
-            if ($request->status === 'approved') {
+            if ($request->status === 'accepted') {
                 $query->where('status', true);
             } elseif ($request->status === 'rejected') {
                 $query->where('status', false);
@@ -34,6 +37,7 @@ class ReviewReportController extends Controller
         }
 
         $inquiries = $query->orderBy('created_at', 'desc')->paginate(10);
+       
 
         return view('Module_2.reviewInquiry', compact('inquiries'));
     }
@@ -43,11 +47,11 @@ class ReviewReportController extends Controller
   public function updateStatus(Request $request, $id)
 {
     $request->validate([
-        'status' => 'required|in:approved,rejected,pending',
+        'status' => 'required|in:accepted,rejected,pending',
     ]);
 
     $statusMap = [
-        'approved' => true,
+        'accepted' => true,
         'rejected' => false,
         'pending' => null,
     ];
@@ -59,11 +63,13 @@ class ReviewReportController extends Controller
     //$reviewCountForThisInquiry = Review::where('inquiries_id', $inquiry->id)->count();
 
     Review::create([
-        'status' => $statusMap[$request->status],
-        //'total_received' => $reviewCountForThisInquiry + 1,
-        // 'user_id' => Auth::id(),
-        'inquiries_id' => $inquiry->id,
-    ]);
+        
+      
+    'status' => $statusMap[$request->status],
+    'inquiries_id' => $inquiry->id,
+    'user_id' => Auth::id(), // ✅ Add this line
+]);
+
 
     return redirect()->back()->with('success', 'Inquiry status updated.');
 }
@@ -75,19 +81,19 @@ class ReviewReportController extends Controller
     public function report()
     {
         $totalInquiries = Inquiry::count();
-        $approved = Inquiry::where('status', true)->count();
+        $accepted = Inquiry::where('status', true)->count();
         $rejected = Inquiry::where('status', false)->count();
 
-        return view('Module_2.inquiryReport', compact('totalInquiries', 'approved', 'rejected'));
+        return view('Module_2.inquiryReport', compact('totalInquiries', 'accepted', 'rejected'));
     }
 
     public function downloadPDF()
 {
     $totalInquiries = Inquiry::count();
-    $approved = Inquiry::where('status', true)->count();
+    $accepted = Inquiry::where('status', true)->count();
     $rejected = Inquiry::where('status', false)->count();
 
-    $pdf = Pdf::loadView('Module_2.reportPDF', compact('totalInquiries', 'approved', 'rejected'));
+    $pdf = Pdf::loadView('Module_2.reportPDF', compact('totalInquiries', 'accepted', 'rejected'));
     return $pdf->download('inquiry_report.pdf');
 }
 }

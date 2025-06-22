@@ -16,7 +16,6 @@ return new class extends Migration
         $table->string('status');
         $table->integer('total_received')->default(0);
         $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-        $table->foreignId('inquiries_id')->nullable()->constrained('inquiries')->nullOnDelete();
         $table->timestamps();
     });
 }

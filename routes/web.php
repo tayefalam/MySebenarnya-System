@@ -7,6 +7,8 @@ use App\Http\Controllers\Module_3\InquiryAssignmentController;
 use App\Http\Controllers\Module_3\AssignmentReportController;
 use App\Http\Controllers\Module_3\InquiryTrackingController;
 use App\Http\Controllers\InquiryProgressController;
+use App\Http\Controllers\ProgressReportController;
+
 
 //module 1
 use App\Http\Controllers\RegisterController;
@@ -126,54 +128,77 @@ Route::middleware(['auth'])->group(function () {
     })->name('debug.profile.image');
 });
 
-// Module 2 Routes
+// Module 2, 3, 4 Routes
 Route::middleware(['web'])->group(function () {
 
     /**
      * PUBLIC
      */
+        Route::middleware(['check.user.type:Public User'])->group(function () {
+        Route::get('/inquiries/create', [InquiryFormController::class, 'create'])->name('inquiries.create');// Add new inquiry form
+        Route::post('/inquiries', [InquiryFormController::class, 'store'])->name('inquiries.store');// Store submitted inquiry
+        Route::get('/inquiries/public', [InquiryFormController::class, 'viewPublic'])->name('inquiries.public');// View inquiries submitted by others
+        Route::get('/inquiries/status', [InquiryFormController::class, 'status'])->name('inquiries.status');// Check status of own inquiries
     
-    Route::get('/inquiries/create', [InquiryFormController::class, 'create'])->name('inquiries.create');// Add new inquiry form
-    Route::post('/inquiries', [InquiryFormController::class, 'store'])->name('inquiries.store');// Store submitted inquiry
-    Route::get('/inquiries/public', [InquiryFormController::class, 'viewPublic'])->name('inquiries.public');// View inquiries submitted by others
-    Route::get('/inquiries/status', [InquiryFormController::class, 'status'])->name('inquiries.status');// Check status of own inquiries
-    Route::get('/inquiries/{id}/download', [InquiryFormController::class, 'downloadEvidence'])->name('inquiries.download');// Download evidence file
+        });
 
-    Route::get('/my-inquiries', [InquiryTrackingController::class, 'listInquiries']);
-    Route::get('/inquiry/assigned-agency/{inquiry_id}', [InquiryTrackingController::class, 'viewAssignment'])->name('assigned.agency');
+        Route::middleware(['auth'])->group(function () {
+        Route::get('/inquiries/{id}/download', [InquiryFormController::class, 'downloadEvidence'])->name('inquiries.download'); 
+        });
 
+        Route::get('/my-inquiries', [InquiryTrackingController::class, 'listInquiries']);
+        Route::get('/inquiry/assigned-agency/{inquiry_id}', [InquiryTrackingController::class, 'viewAssignment'])->name('assigned.agency');
+    
 
     
     /**
      * MCMC 
      */
-   
-    Route::get('/review-inquiries', [ReviewReportController::class, 'index'])->name('inquiries.review');// View and review submitted inquiries
-    Route::post('/inquiries/{id}/status', [ReviewReportController::class, 'updateStatus'])->name('inquiries.updateStatus');// Update inquiry status (Approved / Rejected)
-    Route::get('/report', [ReviewReportController::class, 'report'])->name('inquiries.report');// Generate report based on inquiries
-    Route::get('/report/download', [ReviewReportController::class, 'downloadPDF'])->name('inquiries.report.download');//Download report as PDF
+        Route::middleware(['check.user.type:MCMC'])->group(function () {
+        Route::get('/review-inquiries', [ReviewReportController::class, 'index'])->name('inquiries.review');// View and review submitted inquiries
+        Route::post('/inquiries/{id}/status', [ReviewReportController::class, 'updateStatus'])->name('inquiries.updateStatus');// Update inquiry status (accepted / Rejected)
+        Route::get('/report', [ReviewReportController::class, 'report'])->name('inquiries.report');// Generate report based on inquiries
+        Route::get('/report/download', [ReviewReportController::class, 'downloadPDF'])->name('inquiries.report.download');//Download report as PDF
+        });
 
-    Route::get('/mcmc/review-inquiry/{inquiry_id}', [InquiryAssignmentController::class, 'reviewInquiry'])->name('mcmc.review-inquiry');
-    Route::get('/assign-inquiry/{inquiry_id}', [InquiryAssignmentController::class, 'showAssignForm'])->name('assign.form');
-    Route::post('/assign-inquiry', [InquiryAssignmentController::class, 'assignToAgency'])->name('assign.inquiry');
-    Route::get('/mcmc/report', [AssignmentReportController::class, 'showReportForm'])->name('report.form');
-    Route::get('/mcmc/dashboard', [AssignmentReportController::class, 'viewAnalytics'])->name('dashboard.analytics');
-    Route::get('/mcmc/all-inquiries', [InquiryAssignmentController::class, 'listAllInquiries'])->name('mcmc.inquiries.list');
+        Route::get('/mcmc/review-inquiry/{inquiry_id}', [InquiryAssignmentController::class, 'reviewInquiry'])->name('mcmc.review-inquiry');
+        Route::get('/assign-inquiry/{inquiry_id}', [InquiryAssignmentController::class, 'showAssignForm'])->name('assign.form');
+        Route::post('/assign-inquiry', [InquiryAssignmentController::class, 'assignToAgency'])->name('assign.inquiry');
+        Route::get('/mcmc/report', [AssignmentReportController::class, 'showReportForm'])->name('report.form');
+        Route::get('/mcmc/dashboard', [AssignmentReportController::class, 'viewAnalytics'])->name('dashboard.analytics');
+        Route::get('/mcmc/all-inquiries', [InquiryAssignmentController::class, 'listAllInquiries'])->name('mcmc.inquiries.list');
+    
+
 
     /**
      * AGENCY 
      */
+        Route::middleware(['check.user.type:Agency'])->group(function () {
+        Route::get('/agency/inquiries', [InquiryFormController::class, 'agencyView'])->name('inquiries.agency');
+        });
+        Route::get('/agency/assigned-inquiries', [InquiryAssignmentController::class, 'viewAssignedInquiries'])->name('agency.assigned.list');
+        Route::get('/agency/review-jurisdiction/{assignment_id}', [InquiryAssignmentController::class, 'showJurisdictionForm'])->name('agency.review.jurisdiction');
+        Route::post('/agency/submit-jurisdiction', [InquiryAssignmentController::class, 'submitJurisdiction'])->name('jurisdiction.submit');
 
-    Route::get('/agency/inquiries', [InquiryFormController::class, 'agencyView'])->name('inquiries.agency');
-
-    Route::get('/agency/assigned-inquiries', [InquiryAssignmentController::class, 'viewAssignedInquiries'])->name('agency.assigned.list');
-    Route::get('/agency/review-jurisdiction/{assignment_id}', [InquiryAssignmentController::class, 'showJurisdictionForm'])
-    ->name('agency.review.jurisdiction');
-    Route::post('/agency/submit-jurisdiction', [InquiryAssignmentController::class, 'submitJurisdiction'])->name('jurisdiction.submit');
-
-    Route::get('/progress', [InquiryProgressController::class, 'index']);
-    Route::post('/progress', [InquiryProgressController::class, 'store']);
-
+        Route::get('/progress', [InquiryProgressController::class, 'index']);
+        Route::post('/progress', [InquiryProgressController::class, 'store']);
+    
 });
 
+
+
+// ✅ Module 4 routes
+Route::get('/progress', [InquiryProgressController::class, 'index']);
+Route::post('/progress', [InquiryProgressController::class, 'store']);
+Route::get('/progress/history/{inquiry_id}', [InquiryProgressController::class, 'history']);
+Route::get('/progress/{progress_id}/edit', [InquiryProgressController::class, 'edit']);
+Route::put('/progress/{progress_id}', [InquiryProgressController::class, 'update']); // ✅ this must match the form action
+
+// ✅ Report route for MCMC summary view
+Route::get('/report', [ProgressReportController::class, 'index']);
+
+// ✅ Make /progress the homepage
+Route::get('/', function () {
+    return redirect('/progress');
+});
 
